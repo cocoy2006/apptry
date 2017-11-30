@@ -1,0 +1,137 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<base href="<%=basePath%>">
+		<link rel="stylesheet" type="text/css" href="resources/datetimepicker/css/bootstrap-datetimepicker.min.css">
+		<script type="text/javascript" src="resources/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript" src="resources/js/Chart.min.js"></script>
+		<script type="text/javascript" src="resources/js/awesomechart.js"></script>
+		<script type="text/javascript">
+			//var colors = ['#006CFF', '#FF6600', '#34A038', '#945D59', '#93BBF4', '#F493B8'];
+			$(document).ready(function() {
+				drawYearChart();
+				drawMonthChart();
+				drawDayChart();
+				drawChannelChart();
+			});
+			function drawYearChart() {
+				var mychart = new AwesomeChart('yearChart');
+	            mychart.title = "访问量(年)";
+	            mychart.data = [1532, 3251];
+	            mychart.labels = ["2013年", "2014年"];
+	            mychart.draw();
+			}
+			function drawMonthChart() {
+				//Get context with jQuery - using jQuery's .get() method.
+				var ctx = $("#monthChart").get(0).getContext("2d");
+				//This will get the first returned node in the jQuery collection.
+				var monthChart = new Chart(ctx);
+				var data = {
+					labels : ["1月","2月","3月","4月","5月","6月"],
+					datasets : [
+						{
+							fillColor : "rgba(151,187,205,0.5)",
+							strokeColor : "rgba(151,187,205,1)",
+							pointColor : "rgba(151,187,205,1)",
+							pointStrokeColor : "#fff",
+							data : [28,48,60,50,80,190]
+						}
+					]
+				}
+				monthChart.Line(data);
+			}
+			function drawDayChart() {
+				//Get context with jQuery - using jQuery's .get() method.
+				var ctx = $("#dayChart").get(0).getContext("2d");
+				//This will get the first returned node in the jQuery collection.
+				var dayChart = new Chart(ctx);
+				var data = {
+					labels : ["1日","2日","3日","4日","5日","6日","7日","8日","9日","10日",
+						"11日","12日","13日","14日","15日","16日","17日","18日","19日","20日",
+						"21日","22日","23日","24日","25日","26日"],
+					datasets : [
+						{
+							fillColor : "rgba(151,187,205,0.5)",
+							strokeColor : "rgba(151,187,205,1)",
+							pointColor : "rgba(151,187,205,1)",
+							pointStrokeColor : "#fff",
+							data : [8,4,6,5,8,19,1,2,3,4,8,4,6,5,8,10,1,2,3,4,8,4,6,5,8,9]
+						}
+					]
+				}
+				dayChart.Line(data);
+			}
+			function drawChannelChart() {
+				var mychart = new AwesomeChart('channelChart');
+				mychart.chartType = 'pie';
+	            mychart.title = "渠道";
+	            mychart.data = [320, 340, 200];
+	            mychart.labels = ["Chrome(320)", "Firefox(340)", "Other(200)"];
+	            mychart.colors = ['#006CFF', '#FF6600', '#34A038'];
+	            mychart.chartLineStrokeStyle = 'rgba(0, 0, 200, 0.5)';
+        		mychart.chartPointFillStyle = 'rgb(0, 0, 200)';
+	            mychart.draw();
+			}
+		</script>
+	</head>
+	<body>
+		<div class="tabbable">
+			<!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#yearTab" data-toggle="tab">访问量(年)</a>
+				</li>
+				<li>
+					<a href="#monthTab" data-toggle="tab">访问量(月)</a>
+				</li>
+				<li>
+					<a href="#dayTab" data-toggle="tab">访问量(日)</a>
+				</li>
+				<li>
+					<a href="#channelTab" data-toggle="tab">渠道</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="yearTab">
+					<div style="display: none;">
+						<div class="input-append date">
+						    <input size="16" type="text" value="2013年" style="font-size: 15px;">
+						    <span class="add-on"><i class="icon-calendar"></i></span>
+						</div>
+						<div class="input-append date">
+						    <input size="16" type="text" value="2014年" style="font-size: 15px;">
+						    <span class="add-on"><i class="icon-calendar"></i></span>
+						</div>
+						<script type="text/javascript">
+						    $(".date").datetimepicker({
+						    	format: 'yyyy年',
+						    	startDate: '2013年',
+						    	endDate: '2014年',
+						    	autoclose: true,
+						    	startView: 4,
+						    	minView: 4,
+						    	todayBtn: true,
+						    	pickerPosition: "bottom-left"
+						    });
+						</script>
+					</div>
+					<canvas id="yearChart" width="570" height="500"></canvas>
+				</div>
+				<div class="tab-pane" id="monthTab">
+					<canvas id="monthChart" width="570" height="500"></canvas>
+				</div>
+				<div class="tab-pane" id="dayTab">
+					<canvas id="dayChart" width="570" height="500"></canvas>
+				</div>
+				<div class="tab-pane" id="channelTab">
+					<canvas id="channelChart" width="570" height="500"></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

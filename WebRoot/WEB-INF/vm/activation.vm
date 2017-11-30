@@ -1,0 +1,12 @@
+<!DOCTYPE HTML>
+<html>
+	<head></head>
+	<body>
+		<h1>你好!</h1>
+		<p>感谢注册Apptry</p>
+		<p>请点击以下链接激活账号:</p>
+		<p><a href="${url}">${url}</a></p>
+		<p>如果以上链接无法点击，请将上面的地址复制到浏览器(如Chrome)的地址栏进入。</p>
+		<strong>【注意】本邮件为系统自动发送的邮件，请不要回复本邮件。</strong>
+	</body>
+</html>

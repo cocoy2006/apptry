@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html>
+	<head></head>
+	<body>
+		<h1>你好!</h1>
+		<p>新密码是:</p>
+		<p>${newPassword}</p>
+		<p>(请您注意保管您的密码，及时登录系统修改)。</p>
+		<strong>【注意】本邮件为系统自动发送的邮件，请不要回复本邮件。</strong>
+	</body>
+</html>

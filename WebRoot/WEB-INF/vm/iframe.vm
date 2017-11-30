@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html>
+	<head></head>
+	<body>
+		<h1>你好!</h1>
+		<p>${packageName}(版本号：${version})的专属代码</p>
+		<pre>
+		&lt;iframe frameborder="no" scrolling="no" 
+			src="${src}" 
+			style="height:788px;width:525px;background:transparent;"&gt;
+		&lt;/iframe&gt;
+		</pre>
+	</body>
+</html>

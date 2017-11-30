@@ -1,0 +1,152 @@
+DROP DATABASE APPTRY;
+
+CREATE DATABASE APPTRY;
+USE APPTRY;
+
+CREATE TABLE T_Developer (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	username VARCHAR(20) NOT NULL,
+	password VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	leftClicks INTEGER UNSIGNED NOT NULL,
+	registerTime BIGINT UNSIGNED NOT NULL,
+	expiration BIGINT UNSIGNED NOT NULL,
+	isRenewal TINYINT UNSIGNED,
+	state TINYINT UNSIGNED NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+/*
+	leftClicks(剩余点击次数): default:5
+	isRenewal(自动续费): default:0(false), normal:1(true);
+	state(状态): default:0(unactived), normal:1(actived);
+*/
+INSERT INTO T_Developer VALUES (
+	1000001, 'molab', '4297F44B13955235245B2497399D7A93', 'no-reply@apptry.cn', 10000, 32489436216541, 32489436216541, 0, 1
+);
+
+CREATE TABLE T_Server (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	ipAddress VARCHAR(50) NOT NULL,
+	port INTEGER NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE T_Emulator (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	server_id INTEGER UNSIGNED NOT NULL,
+	serialNumber VARCHAR(50) NOT NULL,
+	manufacturer VARCHAR(20),
+	model VARCHAR(20),
+	os VARCHAR(20),
+	width INTEGER UNSIGNED NOT NULL,
+	height INTEGER UNSIGNED NOT NULL,
+	dpi VARCHAR(20),
+	totalClicks INTEGER UNSIGNED NOT NULL,
+	monthClicks INTEGER UNSIGNED NOT NULL,
+	state TINYINT UNSIGNED NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+/*
+	totalClicks(总点击次数): default:0
+	monthClicks(自然月点击次数): default:0
+	state(状态): default:1(idle), normal:2(busy), other:9(unknown);
+*/
+CREATE TABLE T_Application (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	md5 VARCHAR(128),
+	name VARCHAR(50),
+	aliasName VARCHAR(50),
+	size BIGINT UNSIGNED,
+	packageName VARCHAR(100),
+	version VARCHAR(20),
+	os VARCHAR(20),
+	startActivity VARCHAR(200),
+	icon BLOB,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE T_Dispatcher (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	developer_id INTEGER UNSIGNED NOT NULL,
+	application_id INTEGER UNSIGNED NOT NULL,
+	time BIGINT UNSIGNED,
+	state TINYINT UNSIGNED NOT NULL,
+	PRIMARY KEY (ID)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+/* 
+	0:start; 1:running; 2:end; 9:exception 
+*/
+
+CREATE TABLE T_Deployment (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	dispatcher_id INTEGER UNSIGNED NOT NULL,
+	application_id INTEGER UNSIGNED NOT NULL,
+	emulator_id INTEGER UNSIGNED NOT NULL,
+	state VARCHAR(100),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+/* 
+	0:start; 1:running; 2:end; 9:exception 
+*/
+
+CREATE TABLE T_Product (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	amount INTEGER UNSIGNED NOT NULL,
+	currency VARCHAR(10),
+	clicks INTEGER UNSIGNED NOT NULL,
+	name VARCHAR(100),
+	category VARCHAR(100),
+	description VARCHAR(100),
+	state TINYINT UNSIGNED NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+/* 
+	id:
+		两位数，10-99，
+	currency:
+		default: 'CNY'
+	state:
+		default:1:MER_NORMAL, 0:MER_REMOVE
+*/
+INSERT INTO T_Product VALUES (
+	10, 0, 'CNY', 0, 'free', 'free', 'free', 0
+);
+INSERT INTO T_Product VALUES (
+	11, 100, 'CNY', 1000, 'VIP1', '100CNY', 'VIP1', 1
+);
+INSERT INTO T_Product VALUES (
+	12, 500, 'CNY', 6000, 'VIP2', '500CNY', 'VIP2', 1
+);
+INSERT INTO T_Product VALUES (
+	13, 1000, 'CNY', 14000, 'VIP3', '600CNY', 'VIP3', 1
+);
+
+CREATE TABLE T_Order (
+	id BIGINT UNSIGNED NOT NULL,
+	product_id INTEGER UNSIGNED NOT NULL,
+	developer_id INTEGER UNSIGNED NOT NULL,
+	time BIGINT UNSIGNED NOT NULL,
+	state TINYINT UNSIGNED NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+/* 
+	id:
+		yyMMddHHmmssSSS + randomInteger(constants.default_order_random_length)
+	state: 
+		0:ORDER_WAITING等待支付, 
+		1:ORDER_SUCCESS支付成功，
+		2:ORDER_FAILURE支付失败，
+		3:ORDER_CANCEL取消支付
+*/
+
+CREATE TABLE T_Visit (
+	id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	application_id INTEGER UNSIGNED NOT NULL,
+	ipAddress VARCHAR(50),
+	macAddress VARCHAR(50),
+	fromUrl VARCHAR(200),
+	loginTime BIGINT UNSIGNED NOT NULL,
+	durationTime BIGINT UNSIGNED NOT NULL,
+	userAgent VARCHAR(50),
+	PRIMARY KEY (ID)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
